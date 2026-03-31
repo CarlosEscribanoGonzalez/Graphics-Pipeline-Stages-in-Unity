@@ -15,9 +15,9 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
   m_Fog: 1
-  m_FogColor: {r: 0.14150941, g: 0.14150941, b: 0.14150941, a: 1}
+  m_FogColor: {r: 0.23529412, g: 0.34509805, b: 0.2, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0
+  m_FogDensity: 0.043
   m_LinearFogStart: 2.56
   m_LinearFogEnd: 30
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
@@ -341,7 +341,7 @@ Transform:
   m_GameObject: {fileID: 332008722}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -560, z: 0}
+  m_LocalPosition: {x: 0, y: -128, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -522,7 +522,7 @@ Material:
     - _Displacement:
         m_Texture: {fileID: 2800000, guid: e763000cac6d09a48a512ae8c0fd9c43, type: 3}
         m_Scale: {x: 4, y: 4}
-        m_Offset: {x: 16.279512, y: 35.924965}
+        m_Offset: {x: 16.189291, y: 35.288227}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -2261,6 +2261,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3323150618492854992, guid: baab9041aa5898849be53251de1477b7, type: 3}
+      propertyPath: bounds_x.x
+      value: -150
+      objectReference: {fileID: 0}
+    - target: {fileID: 3323150618492854992, guid: baab9041aa5898849be53251de1477b7, type: 3}
+      propertyPath: bounds_x.y
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 3323150618492854992, guid: baab9041aa5898849be53251de1477b7, type: 3}
+      propertyPath: bounds_y.x
+      value: -250
+      objectReference: {fileID: 0}
+    - target: {fileID: 3323150618492854992, guid: baab9041aa5898849be53251de1477b7, type: 3}
+      propertyPath: bounds_z.x
+      value: -150
+      objectReference: {fileID: 0}
+    - target: {fileID: 3323150618492854992, guid: baab9041aa5898849be53251de1477b7, type: 3}
+      propertyPath: bounds_z.y
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 3323150618492854992, guid: baab9041aa5898849be53251de1477b7, type: 3}
+      propertyPath: numEntities
+      value: 2000
+      objectReference: {fileID: 0}
     - target: {fileID: 4397976210865053586, guid: baab9041aa5898849be53251de1477b7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

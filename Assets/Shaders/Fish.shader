@@ -56,6 +56,7 @@ Shader "PGATR/Fish"
             #pragma fragment frag
 			#pragma geometry geo
 			#pragma target 4.6
+			#pragma multi_compile_fog
             
 			#include "Lighting.cginc"
 
@@ -99,6 +100,7 @@ Shader "PGATR/Fish"
 			{
 				float4 pos : SV_POSITION;
 				float2 uv : TEXCOORD0;
+				UNITY_FOG_COORDS(1)
 			};
 
 			GeometryOutput GenerateVertex(float3 pos, float2 uv)
@@ -106,6 +108,7 @@ Shader "PGATR/Fish"
 				GeometryOutput go;
 				go.pos = mul(UNITY_MATRIX_P, float4(pos, 1));
 				go.uv = uv;
+				UNITY_TRANSFER_FOG(go, go.pos);
 				return go;
 			}
 
@@ -156,6 +159,7 @@ Shader "PGATR/Fish"
             {	
 				float4 c = tex2Dlod(_FishTexture, float4(IN.uv, 0, 0));
 				clip(c - 0.05);
+				UNITY_APPLY_FOG(IN.fogCoord, c);
 				return c;
             }
             ENDCG
