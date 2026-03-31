@@ -29,22 +29,18 @@ public class FlockMovement : MonoBehaviour
     private ComputeBuffer newVelBuffer;
     private int N => generator.NumEntities;
 
-    private void Awake()
+    private void Start()
     {
+        shader = Instantiate(shader);
         generator = GetComponent<EntityGenerator>();
         controller = GetComponent<EntityGroupController>();
         kernel = shader.FindKernel("CSMain");
         groups = Mathf.CeilToInt(N / 256f);
         InitShaderParams();
         InitBuffers();
-    }
-
-    private void Start()
-    {
-        //Posiciones y velociades iniciales aleatorias:
         positions = generator.GetPositions();
         velocities = new Vector3[N];
-        for (int i = 0; i < N; i++) velocities[i] = Random.insideUnitSphere;
+        for (int i = 0; i < N; i++) velocities[i] = Random.insideUnitSphere / 10;
         StartCoroutine(ChangeTargetCoroutine());
     }
 

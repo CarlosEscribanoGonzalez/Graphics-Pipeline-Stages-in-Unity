@@ -21,7 +21,7 @@ public class EntityGenerator : MonoBehaviour
             bounds = new(Vector3.zero, new(bounds_x.y - bounds_x.x, bounds_y.y - bounds_y.x,
                 bounds_z.y - bounds_z.x))
         };
-        meshFilter.sharedMesh = pointMesh;
+        meshFilter.mesh = pointMesh;
     }
 
     public Vector3 GetPointInDomain()
@@ -54,5 +54,22 @@ public class EntityGenerator : MonoBehaviour
         for (int i = 0; i < numEntities; i++)
             for (int j = 0; j < 3; j++) triangles.Add(i);
         return triangles.ToArray();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+        Vector3 center = new(
+            (bounds_x.x + bounds_x.y) / 2f,
+            (bounds_y.x + bounds_y.y) / 2f,
+            (bounds_z.x + bounds_z.y) / 2f
+        );
+        Vector3 size = new(
+            bounds_x.y - bounds_x.x,
+            bounds_y.y - bounds_y.x,
+            bounds_z.y - bounds_z.x
+        );
+        Gizmos.matrix = transform.localToWorldMatrix;
+        Gizmos.DrawWireCube(center, size);
     }
 }

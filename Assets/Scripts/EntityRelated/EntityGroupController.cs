@@ -1,16 +1,16 @@
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(EntityGenerator))]
 public class EntityGroupController : MonoBehaviour
 {
     [SerializeField] private Vector2 speedRange = new(1, 10); //Rango de velocidades
     [SerializeField] private float animSpeedMult = 5f; //Multiplicador velocidad animación coleteo
-    [SerializeField] private Vector2 restTimeRange = new(0.5f, 3); //Tiempo de descanso al llegar al destino
     [SerializeField] private float flipThreshold = 0.05f;
+    [SerializeField] private Vector2 restTimeRange = new(0.5f, 3); //Tiempo de descanso al llegar al destino
     private Mesh mesh;
     private EntityGenerator generator;
     private Vector3[] positions;
-    private Vector3[] velocities;
     private GraphicsBuffer entityDataBuffer;
     private EntityData[] data;
     private Material material;
@@ -18,20 +18,20 @@ public class EntityGroupController : MonoBehaviour
 
     private void Start()
     {
-        mesh = GetComponent<MeshFilter>().sharedMesh;
+        mesh = GetComponent<MeshFilter>().mesh;
         generator = GetComponent<EntityGenerator>();
         material = GetComponent<MeshRenderer>().material;
         positions = new Vector3[mesh.vertices.Length];
-        velocities = new Vector3[mesh.vertices.Length];
         data = new EntityData[mesh.vertices.Length];
         cam = Camera.main.transform;
         int stride = sizeof(int) + sizeof(float) * 2;
         entityDataBuffer = new(GraphicsBuffer.Target.Structured, mesh.vertices.Length, stride);
+        material.SetBuffer("entityData", entityDataBuffer);
         //Si hay FlockMovement el movimiento lo controla ese script, de lo contrario lo hace este
         if (!TryGetComponent(out FlockMovement _))
         {
             for (int i = 0; i < mesh.vertices.Length; i++)
-                StartCoroutine(UpdateFishCoroutine(i));
+                StartCoroutine(UpdateEntityCoroutine(i));
         }
     }
 
@@ -41,13 +41,11 @@ public class EntityGroupController : MonoBehaviour
     {
         mesh.vertices = positions;
         entityDataBuffer.SetData(data);
-        material.SetBuffer("entityData", entityDataBuffer);
     }
 
     public void UpdateInfo(Vector3[] positions, Vector3[] velocities)
     {
         this.positions = positions;
-        this.velocities = velocities;
         for(int i = 0; i < data.Length; i++)
         {
             Vector3 dir = velocities[i].normalized;
@@ -59,7 +57,7 @@ public class EntityGroupController : MonoBehaviour
         }
     }
 
-    IEnumerator UpdateFishCoroutine(int fishIdx)
+    IEnumerator UpdateEntityCoroutine(int fishIdx)
     {
         positions[fishIdx] = mesh.vertices[fishIdx];
         while (true)
