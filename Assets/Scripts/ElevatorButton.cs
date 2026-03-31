@@ -6,7 +6,7 @@ public class ElevatorButton : MonoBehaviour, IInteractable
     private Elevator elevator;
     public bool InteractionBlocked { get; set; }
 
-    private void Awake()
+    private void Start()
     {
         hoverInfo.SetActive(false);
         elevator = GetComponentInParent<Elevator>();
