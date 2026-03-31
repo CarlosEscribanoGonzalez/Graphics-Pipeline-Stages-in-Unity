@@ -2,33 +2,36 @@ using UnityEngine;
 
 public class SkyboxChanger : MonoBehaviour
 {
-    [SerializeField] private Color tintColor;
-    private Color originalTintColor;
-
-    private void Awake()
-    {
-        originalTintColor = RenderSettings.skybox.GetColor("_Tint");
-    }
+    [SerializeField] private Material surfaceSkybox;
+    [SerializeField] private Material underWaterSkybox;
+    [SerializeField] private GameObject waterHorizon;
 
     private void OnDestroy()
     {
-        SetTint(originalTintColor);
+        SetSkybox(SkyboxType.Surface);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && other.transform.position.y < transform.position.y)
-            SetTint(originalTintColor);
+            SetSkybox(SkyboxType.Surface);
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player") && other.transform.position.y < transform.position.y)
-            SetTint(tintColor);
+            SetSkybox(SkyboxType.Underwater);
     }
 
-    private void SetTint(Color tint)
+    private void SetSkybox(SkyboxType type)
     {
-        RenderSettings.skybox.SetColor("_Tint", tint);
+        RenderSettings.skybox = type == SkyboxType.Surface ? surfaceSkybox : underWaterSkybox;
+        waterHorizon.SetActive(type == SkyboxType.Underwater);
+    }
+
+    private enum SkyboxType
+    {
+        Surface,
+        Underwater
     }
 }

@@ -22,7 +22,7 @@ Shader "PGATR/Water"
     {
         Pass
         {
-			Cull Off
+			Cull Back
 			Blend SrcAlpha OneMinusSrcAlpha
 			ZWrite On
 
@@ -77,7 +77,7 @@ Shader "PGATR/Water"
 			VertexOutput vert(VertexInput vert)
 			{
 				VertexOutput o;
-				o.vertex = float4(vert.vertex.xyz * _Scale, 1);
+				o.vertex = vert.vertex;
 				o.normal = vert.normal;
 				o.tangent = vert.tangent;
 				o.uv = vert.uv;
@@ -133,7 +133,7 @@ Shader "PGATR/Water"
 				MY_DOMAIN_PROGRAM_INTERPOLATE(uv)
 				float2 uv = v.uv.xy * _Displacement_ST.xy + _Displacement_ST.zw;
 				float vertOffset = tex2Dlod(_Displacement, float4(uv, 0, 0)).x; //Desplazamiento vertical
-				float4 pos = v.vertex + float4(0, vertOffset * _MaxHeight, 0, 0);
+				float4 pos = float4((v.vertex * _Scale).rgb, 1) + float4(0, vertOffset * _MaxHeight, 0, 0);
 				v.worldPos = mul(UNITY_MATRIX_M, pos);
 				v.vertex = UnityObjectToClipPos(pos);
 				//Normales:
