@@ -10,6 +10,7 @@ public class EntityGroupController : MonoBehaviour
     private Mesh mesh;
     private EntityGenerator generator;
     private Vector3[] positions;
+    private Vector3[] velocities;
     private GraphicsBuffer entityDataBuffer;
     private EntityData[] data;
     private Material material;
@@ -21,12 +22,17 @@ public class EntityGroupController : MonoBehaviour
         generator = GetComponent<EntityGenerator>();
         material = GetComponent<MeshRenderer>().material;
         positions = new Vector3[mesh.vertices.Length];
+        velocities = new Vector3[mesh.vertices.Length];
         data = new EntityData[mesh.vertices.Length];
         cam = Camera.main.transform;
         int stride = sizeof(int) + sizeof(float) * 2;
         entityDataBuffer = new(GraphicsBuffer.Target.Structured, mesh.vertices.Length, stride);
-        for (int i = 0; i < mesh.vertices.Length; i++)
-            StartCoroutine(UpdateFishCoroutine(i));
+        //Si hay FlockMovement el movimiento lo controla ese script, de lo contrario lo hace este
+        if (!TryGetComponent(out FlockMovement _))
+        {
+            for (int i = 0; i < mesh.vertices.Length; i++)
+                StartCoroutine(UpdateFishCoroutine(i));
+        }
     }
 
     private void OnDestroy() => entityDataBuffer?.Dispose();
@@ -38,7 +44,21 @@ public class EntityGroupController : MonoBehaviour
         material.SetBuffer("entityData", entityDataBuffer);
     }
 
-    //SI HAY PROBLEMAS DE RENDIMIENTO HACERLO EN EL SHADER:
+    public void UpdateInfo(Vector3[] positions, Vector3[] velocities)
+    {
+        this.positions = positions;
+        this.velocities = velocities;
+        for(int i = 0; i < data.Length; i++)
+        {
+            Vector3 dir = velocities[i].normalized;
+            float dot = Vector3.Dot(dir, cam.right);
+            bool flip = Mathf.Abs(dot) > flipThreshold ? dot > 0 : data[i].flip == 1;
+            data[i].flip = flip ? 1 : 0;
+            data[i].rotation = (flip ? -1 : 1) * Mathf.Rad2Deg * Mathf.Atan(dir.y * 2);
+            data[i].speed = velocities[i].magnitude * animSpeedMult;
+        }
+    }
+
     IEnumerator UpdateFishCoroutine(int fishIdx)
     {
         positions[fishIdx] = mesh.vertices[fishIdx];

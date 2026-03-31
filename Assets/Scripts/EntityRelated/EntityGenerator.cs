@@ -7,7 +7,9 @@ public class EntityGenerator : MonoBehaviour
     [SerializeField] private Vector2 bounds_x = new(-10, 10);
     [SerializeField] private Vector2 bounds_y = new(-10, 10);
     [SerializeField] private Vector2 bounds_z = new(-10, 10);
+    [SerializeField] private bool initRandomPositions = true;
     private MeshFilter meshFilter;
+    public int NumEntities => numEntities;
 
     void Awake()
     {
@@ -30,12 +32,20 @@ public class EntityGenerator : MonoBehaviour
         return new(pos_x, pos_y, pos_z);
     }
 
+    public Vector3[] GetPositions()
+    {
+        return meshFilter.mesh.vertices;
+    }
+
     private Vector3[] GenerateVertices()
     {
-        List<Vector3> fishPositions = new();
-        for (int i = 0; i < numEntities; i++) 
-            fishPositions.Add(GetPointInDomain());
-        return fishPositions.ToArray();
+        List<Vector3> entityPositions = new();
+        for (int i = 0; i < numEntities; i++)
+        {
+            if (initRandomPositions) entityPositions.Add(GetPointInDomain());
+            else entityPositions.Add(Vector3.zero);
+        }
+        return entityPositions.ToArray();
     }
 
     private int[] GenerateTriangles() //Si no son triángulos no se pintan
