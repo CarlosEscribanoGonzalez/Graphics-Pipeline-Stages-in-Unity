@@ -146,21 +146,26 @@ Shader "PGATR/Water"
 				return v;
 			}
 
-			//FRAGMENTS - Iluminación por Blinn-Phong
 			float4 frag(float3 worldPos : TEXCOORD1, float3 N : NORMAL) : SV_Target
-            {	
-				N = normalize(N); //Por asegurar
-				//Ambiental:
-				float3 color = UNITY_LIGHTMODEL_AMBIENT * _Albedo.xyz;
-				//Difuso:
-				float3 L = normalize(_WorldSpaceLightPos0.xyz);
-				color += _LightColor0 * _Albedo.xyz * saturate(dot(N, L));
-				//Especular:
+			{
+				N = normalize(N);
 				float3 V = normalize(_WorldSpaceCameraPos - worldPos);
+				float3 L = normalize(_WorldSpaceLightPos0.xyz);
 				float3 H = normalize(L + V);
-				color += _LightColor0 * pow(saturate(dot(N, H)), _Alpha); //Asumiendo material dieléctrico, Ks blanco
+				// Ambiental
+				float3 color = UNITY_LIGHTMODEL_AMBIENT.rgb * _Albedo.rgb;
+				// Difuso
+				float NdotL = saturate(dot(N, L));
+				color += _LightColor0.rgb * _Albedo.rgb * NdotL * 0.3;
+				// Fresnel
+				float fresnel = pow(1.0 - saturate(dot(N, V)), 4.0);
+				fresnel = lerp(0.02, 1.0, fresnel); // F0 dieléctrico ~0.02 para agua
+				// Especular Blinn-Phong atenuado por Fresnel
+				float NdotH = saturate(dot(N, H));
+				float spec = pow(NdotH, _Alpha);
+				color += _LightColor0.rgb * spec * fresnel;
 				return float4(saturate(color), _Albedo.w);
-            }
+			}
             ENDCG
         }
     }
