@@ -1,16 +1,18 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class FluidSurface : MonoBehaviour
+public class Puddle : MonoBehaviour
 {
-    [SerializeField] private int numCells = 60; 
+    [Header("Creation")]
+    [SerializeField] private int numCells = 60;
+    [SerializeField] private float width = 10;
+    [SerializeField] private float height = 10;
+    [Header("Simulation")]
     [SerializeField] private float timeStep = 0.01f;
     [SerializeField] private float propagationSpeed = 0.04f; 
     [SerializeField] private float damping = 0.001f; 
     [SerializeField] private float initHeight = 50;
     [SerializeField] private float sigma = 0.01f;
-    private float width; 
-    private float height; 
     private MeshFilter filter;
 
     struct Node
@@ -25,11 +27,7 @@ public class FluidSurface : MonoBehaviour
     void Awake()
     {
         filter = GetComponent<MeshFilter>();
-        Vector3 worldSize = filter.mesh.bounds.size; //Permite poner un plano para previsualizar el área
-        width = worldSize.x;
-        height = worldSize.z;
         filter.mesh = GenerateMesh();
-        initHeight /= ((transform.lossyScale.x + transform.lossyScale.z) / 2);
         GetComponent<MeshCollider>().sharedMesh = filter.mesh;
         SetupInitialSimulationState();
     }

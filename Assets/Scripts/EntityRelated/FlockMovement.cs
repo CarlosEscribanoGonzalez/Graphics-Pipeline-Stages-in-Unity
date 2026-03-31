@@ -40,7 +40,7 @@ public class FlockMovement : AComputeMovement
         InitBuffers();
         positions = generator.GetPositions();
         velocities = new Vector3[N];
-        for (int i = 0; i < N; i++) velocities[i] = Random.insideUnitSphere / 10;
+        for (int i = 0; i < N; i++) velocities[i] = Random.insideUnitSphere / 100;
         StartCoroutine(ChangeTargetCoroutine());
     }
 

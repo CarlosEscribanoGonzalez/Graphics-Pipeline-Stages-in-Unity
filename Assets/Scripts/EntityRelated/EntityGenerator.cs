@@ -46,7 +46,7 @@ public class EntityGenerator : MonoBehaviour
         for (int i = 0; i < numEntities; i++)
         {
             if (initRandomPositions) entityPositions.Add(GetPointInDomain());
-            else entityPositions.Add(Vector3.zero);
+            else entityPositions.Add(Utils.GetDomainMidPoint(bounds_x, bounds_y, bounds_z));
         }
         return entityPositions.ToArray();
     }
