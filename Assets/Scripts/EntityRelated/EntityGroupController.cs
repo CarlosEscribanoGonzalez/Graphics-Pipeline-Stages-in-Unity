@@ -5,6 +5,7 @@ using System.Collections;
 public class EntityGroupController : MonoBehaviour
 {
     [SerializeField] private float animSpeedMult = 5f; //Multiplicador velocidad animación coleteo
+    [SerializeField] private float maxAnimSpeed = 5f; //Multiplicador velocidad animación coleteo
     [SerializeField] private float flipThreshold = 0.05f;
     [Header("Own movement")]
     [SerializeField] private Vector2 speedRange = new(1, 10); //Rango de velocidades
@@ -54,7 +55,8 @@ public class EntityGroupController : MonoBehaviour
             bool flip = Mathf.Abs(dot) > flipThreshold ? dot > 0 : data[i].flip == 1;
             data[i].flip = flip ? 1 : 0;
             data[i].rotation = (flip ? -1 : 1) * Mathf.Rad2Deg * Mathf.Atan(dir.y * 2);
-            data[i].speed = velocities[i].magnitude * animSpeedMult;
+            float speed = Mathf.Lerp(data[i].speed, velocities[i].magnitude * animSpeedMult, Time.deltaTime);
+            data[i].speed = Mathf.Min(speed, maxAnimSpeed);
         }
     }
 
@@ -67,7 +69,7 @@ public class EntityGroupController : MonoBehaviour
             yield return new WaitForSeconds(Utils.RandomInRange(restTimeRange));
             Vector3 destination = generator.GetPointInDomain();
             float speed = Utils.RandomInRange(speedRange);
-            data[fishIdx].speed = speed * animSpeedMult;
+            data[fishIdx].speed = Mathf.Min(speed * animSpeedMult, maxAnimSpeed);
             while (positions[fishIdx] != destination)
             {
                 Vector3 dir = (destination - positions[fishIdx]).normalized;
