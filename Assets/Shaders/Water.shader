@@ -7,8 +7,8 @@ Shader "PGATR/Water"
 		_Alpha("Alpha", Float) = 500
 		[Header(Tessellation)]
 		_Scale("Scale", Float) = 50
-		_MaxTessellationFactor("Max Tessellation Factor", Range(1, 64)) = 50
-		_MinTessellationFactor("Min Tessellation Factor", Range(1, 64)) = 1
+		_MaxTessellationFactor("Max Tessellation Factor", Range(1, 128)) = 50
+		_MinTessellationFactor("Min Tessellation Factor", Range(1, 128)) = 1
 		_MinDist("Min Dist", Float) = 3
 		_MaxDist("Max Dist", Float) = 50
 		_MaxHeight("Max Height", Float) = 2
@@ -131,18 +131,18 @@ Shader "PGATR/Water"
 				MY_DOMAIN_PROGRAM_INTERPOLATE(normal)
 				MY_DOMAIN_PROGRAM_INTERPOLATE(tangent)
 				MY_DOMAIN_PROGRAM_INTERPOLATE(uv)
-				float2 uv = v.uv.xy * _Displacement_ST.xy * _Scale + _Displacement_ST.zw;
+				float2 uv = v.uv.xy * _Displacement_ST.xy + _Displacement_ST.zw;
 				float vertOffset = tex2Dlod(_Displacement, float4(uv, 0, 0)).x; //Desplazamiento vertical
 				float4 pos = v.vertex + float4(0, vertOffset * _MaxHeight, 0, 0);
 				v.worldPos = mul(UNITY_MATRIX_M, pos);
 				v.vertex = UnityObjectToClipPos(pos);
 				//Normales:
-				float3 normal = normalize(UnityObjectToWorldNormal(v.normal)); 
+				float3 normal = normalize(UnityObjectToWorldNormal(v.normal));
 				float3 tangent = normalize(UnityObjectToWorldDir(v.tangent.xyz));
-				float3 bitangent = normalize(cross(normal, tangent)) * v.tangent.w;
+				float3 bitangent = cross(normal, tangent) * v.tangent.w;
 				float3x3 TBN = float3x3(tangent, bitangent, normal);
 				float3 N = tex2Dlod(_NormalMap, float4(uv, 0, 0)).xyz * 2.0 - 1.0;
-				v.normal = lerp(-normal, normalize(mul(TBN, N)), _NormalMapStrength);
+				v.normal = lerp(normal, normalize(mul(N, TBN)), _NormalMapStrength);
 				return v;
 			}
 
@@ -153,7 +153,7 @@ Shader "PGATR/Water"
 				//Ambiental:
 				float3 color = UNITY_LIGHTMODEL_AMBIENT * _Albedo.xyz;
 				//Difuso:
-				float3 L = normalize(-_WorldSpaceLightPos0.xyz);
+				float3 L = normalize(_WorldSpaceLightPos0.xyz);
 				color += _LightColor0 * _Albedo.xyz * saturate(dot(N, L));
 				//Especular:
 				float3 V = normalize(_WorldSpaceCameraPos - worldPos);
