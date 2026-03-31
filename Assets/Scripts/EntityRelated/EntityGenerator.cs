@@ -4,6 +4,9 @@ using UnityEngine;
 public class EntityGenerator : MonoBehaviour
 {
     [SerializeField] private int numEntities;
+    [SerializeField] private Vector2 widthRange;
+    [SerializeField] private Vector2 heightRange;
+    [SerializeField] private bool matchWidthAndHeight;
     [SerializeField] private Vector2 bounds_x = new(-10, 10);
     [SerializeField] private Vector2 bounds_y = new(-10, 10);
     [SerializeField] private Vector2 bounds_z = new(-10, 10);
@@ -38,6 +41,18 @@ public class EntityGenerator : MonoBehaviour
     public Vector3[] GetPositions()
     {
         return meshFilter.mesh.vertices;
+    }
+
+    public (float[], float[]) GetSizes()
+    {
+        float[] sizesX = new float[numEntities];
+        float[] sizesY = new float[numEntities];
+        for (int i = 0; i < numEntities; i++)
+        {
+            sizesX[i] = Utils.RandomInRange(widthRange);
+            sizesY[i] = matchWidthAndHeight ? sizesX[i] : Utils.RandomInRange(heightRange);
+        }
+        return (sizesX, sizesY);
     }
 
     private Vector3[] GenerateVertices()

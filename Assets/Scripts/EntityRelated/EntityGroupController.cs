@@ -17,22 +17,24 @@ public class EntityGroupController : MonoBehaviour
     private EntityData[] data;
     private Material material;
     private Transform cam;
+    private int N => mesh.vertices.Length;
 
     private void Start()
     {
         mesh = GetComponent<MeshFilter>().mesh;
         generator = GetComponent<EntityGenerator>();
         material = GetComponent<MeshRenderer>().material;
-        positions = new Vector3[mesh.vertices.Length];
-        data = new EntityData[mesh.vertices.Length];
         cam = Camera.main.transform;
-        int stride = sizeof(int) + sizeof(float) * 2;
-        entityDataBuffer = new(GraphicsBuffer.Target.Structured, mesh.vertices.Length, stride);
+        positions = new Vector3[N];
+        data = new EntityData[N];
+        InitSizes();
+        int stride = sizeof(int) + sizeof(float) * 4;
+        entityDataBuffer = new(GraphicsBuffer.Target.Structured, N, stride);
         material.SetBuffer("entityData", entityDataBuffer);
         //Si hay Compute Movement el movimiento lo controla ese script, de lo contrario lo hace este
         if (!TryGetComponent(out AComputeMovement _))
         {
-            for (int i = 0; i < mesh.vertices.Length; i++)
+            for (int i = 0; i < N; i++)
                 StartCoroutine(UpdateEntityCoroutine(i));
         }
     }
@@ -57,6 +59,16 @@ public class EntityGroupController : MonoBehaviour
             data[i].rotation = (flip ? -1 : 1) * Mathf.Rad2Deg * Mathf.Atan(dir.y * 2);
             float speed = Mathf.Lerp(data[i].speed, velocities[i].magnitude * animSpeedMult, Time.deltaTime);
             data[i].speed = Mathf.Min(speed, maxAnimSpeed);
+        }
+    }
+
+    private void InitSizes()
+    {
+        (float[] sizesX, float[] sizesY) = generator.GetSizes();
+        for(int i = 0; i < N; i++)
+        {
+            data[i].sizeX = sizesX[i];
+            data[i].sizeY = sizesY[i];
         }
     }
 
@@ -89,4 +101,6 @@ public struct EntityData
     public int flip;
     public float rotation;
     public float speed;
+    public float sizeX;
+    public float sizeY;
 }

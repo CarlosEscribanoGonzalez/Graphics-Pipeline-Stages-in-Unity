@@ -3,8 +3,6 @@ Shader "PGATR/Seagull"
     Properties
     {
 		[Header(Properties)]
-		_SeagullSize_x("SeagullSizeX", Float) = 1
-		_SeagullSize_y("SeagullSizeY", Float) = 1
 		_WingsPosition("WingsPosition", Range(0, 1)) = 0.9
 		_MaxWingAngle("MaxWingAngle", Range(-120, 120)) = 45
 		_SeagullTexture("SeagullTexture", 2D) = "white" {}
@@ -63,8 +61,6 @@ Shader "PGATR/Seagull"
 			#include "Lighting.cginc"
 
 			float _WingsPosition;
-			float _SeagullSize_x;
-			float _SeagullSize_y;
 			sampler2D _SeagullTexture;
 			float _MaxWingAngle;
 			float _StartingRot;
@@ -96,6 +92,8 @@ Shader "PGATR/Seagull"
 				bool flip;
 				float rotation;
 				float speed;
+				float sizeX;
+				float sizeY;
 			};
 			StructuredBuffer<EntityData> entityData;
 
@@ -123,8 +121,8 @@ Shader "PGATR/Seagull"
 				float3 right = mul(rotation, float3(1, 0, 0));
 				float3 forward = mul(rotation, float3(0, 0, 1));
 				float3 up = cross(forward, right);
-				float3 offset_x = 0.5f * _SeagullSize_x * right * (entityData[idx].flip ? -1 : 1);
-				float3 offset_y = 0.5f * _SeagullSize_y * up;
+				float3 offset_x = 0.5f * entityData[idx].sizeX * right * (entityData[idx].flip ? -1 : 1);
+				float3 offset_y = 0.5f * entityData[idx].sizeY * up;
 				//Creación de vértices:
 				float3 center = IN[0].vertex.xyz;
 				float3 point0 = center - offset_x + offset_y; //Arriba izquierda

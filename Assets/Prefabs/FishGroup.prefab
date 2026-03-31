@@ -106,6 +106,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishManager
   numEntities: 200
+  widthRange: {x: 0.75, y: 1.25}
+  heightRange: {x: 0.75, y: 1.25}
+  matchWidthAndHeight: 0
   bounds_x: {x: -50, y: 50}
   bounds_y: {x: 0, y: 10.1}
   bounds_z: {x: -50, y: 50}

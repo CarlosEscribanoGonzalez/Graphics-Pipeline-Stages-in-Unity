@@ -3,8 +3,6 @@ Shader "PGATR/Fish"
     Properties
     {
 		[Header(Properties)]
-		_FishSize_x("FishSizeX", Float) = 1
-		_FishSize_y("FishSizeY", Float) = 1
 		_TailPosition("TailPosition", Range(0, 1)) = 0.9
 		_MaxTailAngle("MaxTailAngle", Range(-120, 120)) = 45
 		_FishTexture("FishTexture", 2D) = "white" {}
@@ -62,8 +60,6 @@ Shader "PGATR/Fish"
 			#include "Lighting.cginc"
 
 			float _TailPosition;
-			float _FishSize_x;
-			float _FishSize_y;
 			sampler2D _FishTexture;
 			float _MaxTailAngle;
 
@@ -94,6 +90,8 @@ Shader "PGATR/Fish"
 				bool flip;
 				float rotation;
 				float speed;
+				float sizeX;
+				float sizeY;
 			};
 			StructuredBuffer<EntityData> entityData;
 
@@ -120,8 +118,8 @@ Shader "PGATR/Fish"
 				float3 right = mul(rotation, float3(1, 0, 0));
 				float3 forward = mul(rotation, float3(0, 0, 1));
 				float3 up = cross(forward, right);
-				float3 offset_x = 0.5f * _FishSize_x * right * (entityData[idx].flip ? -1 : 1);
-				float3 offset_y = 0.5f * _FishSize_y * up;
+				float3 offset_x = 0.5f * entityData[idx].sizeX * right * (entityData[idx].flip ? -1 : 1);
+				float3 offset_y = 0.5f * entityData[idx].sizeY * up;
 				//Creación de vértices:
 				float3 center = IN[0].vertex.xyz;
 				float3 point0 = center - offset_x + offset_y; //Arriba izquierda
