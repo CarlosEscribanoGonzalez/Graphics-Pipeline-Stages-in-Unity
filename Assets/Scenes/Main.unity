@@ -522,7 +522,7 @@ Material:
     - _Displacement:
         m_Texture: {fileID: 2800000, guid: e763000cac6d09a48a512ae8c0fd9c43, type: 3}
         m_Scale: {x: 4, y: 4}
-        m_Offset: {x: 16.189291, y: 35.288227}
+        m_Offset: {x: 17.928844, y: 37.965122}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -560,7 +560,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 1
     - _GlossyReflections: 1
-    - _MaxDist: 133.36
+    - _MaxDist: 200
     - _MaxHeight: 1.2
     - _MaxTessellationFactor: 128
     - _Metallic: 0
