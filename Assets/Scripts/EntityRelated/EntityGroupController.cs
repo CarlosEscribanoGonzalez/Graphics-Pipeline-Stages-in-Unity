@@ -4,9 +4,10 @@ using System.Collections;
 [RequireComponent(typeof(EntityGenerator))]
 public class EntityGroupController : MonoBehaviour
 {
-    [SerializeField] private Vector2 speedRange = new(1, 10); //Rango de velocidades
     [SerializeField] private float animSpeedMult = 5f; //Multiplicador velocidad animación coleteo
     [SerializeField] private float flipThreshold = 0.05f;
+    [Header("Own movement")]
+    [SerializeField] private Vector2 speedRange = new(1, 10); //Rango de velocidades
     [SerializeField] private Vector2 restTimeRange = new(0.5f, 3); //Tiempo de descanso al llegar al destino
     private Mesh mesh;
     private EntityGenerator generator;
@@ -27,8 +28,8 @@ public class EntityGroupController : MonoBehaviour
         int stride = sizeof(int) + sizeof(float) * 2;
         entityDataBuffer = new(GraphicsBuffer.Target.Structured, mesh.vertices.Length, stride);
         material.SetBuffer("entityData", entityDataBuffer);
-        //Si hay FlockMovement el movimiento lo controla ese script, de lo contrario lo hace este
-        if (!TryGetComponent(out FlockMovement _))
+        //Si hay Compute Movement el movimiento lo controla ese script, de lo contrario lo hace este
+        if (!TryGetComponent(out AComputeMovement _))
         {
             for (int i = 0; i < mesh.vertices.Length; i++)
                 StartCoroutine(UpdateEntityCoroutine(i));

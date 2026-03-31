@@ -10,6 +10,9 @@ public class EntityGenerator : MonoBehaviour
     [SerializeField] private bool initRandomPositions = true;
     private MeshFilter meshFilter;
     public int NumEntities => numEntities;
+    public Vector2 Bounds_X => bounds_x;
+    public Vector2 Bounds_Y => bounds_y;
+    public Vector2 Bounds_Z => bounds_z;
 
     void Awake()
     {

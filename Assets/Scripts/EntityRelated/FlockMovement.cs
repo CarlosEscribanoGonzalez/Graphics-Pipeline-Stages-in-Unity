@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(EntityGenerator))]
 [RequireComponent(typeof(EntityGroupController))]
-public class FlockMovement : MonoBehaviour
+public class FlockMovement : AComputeMovement
 {
     [SerializeField] private ComputeShader shader;
     [SerializeField] private Vector2 targetChangeInterval = new(2, 5);
@@ -57,7 +57,7 @@ public class FlockMovement : MonoBehaviour
         controller.UpdateInfo(positions, velocities);
     }
 
-    private void InitShaderParams()
+    protected override void InitShaderParams()
     {
         shader.SetInt("entityCount", N);
         shader.SetFloat("neighborRadius", neighborRadius);
@@ -70,7 +70,7 @@ public class FlockMovement : MonoBehaviour
         shader.SetFloat("weightTarget", weightTarget);
     }
 
-    private void InitBuffers()
+    protected override void InitBuffers()
     {
         posBuffer = new(N, sizeof(float) * 3);
         newPosBuffer = new(N, sizeof(float) * 3);
@@ -82,7 +82,7 @@ public class FlockMovement : MonoBehaviour
         shader.SetBuffer(kernel, "newVelocities", newVelBuffer);
     }
 
-    private void ReleaseBuffers()
+    protected override void ReleaseBuffers()
     {
         posBuffer.Release();
         newPosBuffer.Release();

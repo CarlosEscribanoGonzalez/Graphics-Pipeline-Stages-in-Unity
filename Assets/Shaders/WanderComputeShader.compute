@@ -1,0 +1,57 @@
+﻿#pragma kernel CSMain
+
+RWStructuredBuffer<float3> positions;
+RWStructuredBuffer<float3> targetPositions;
+RWStructuredBuffer<float3> velocities;
+RWStructuredBuffer<float> restTimers;
+
+cbuffer Params
+{
+    int entityCount;
+    float deltaTime;
+    float time;
+    float2 speedRange;
+    float distThreshold;
+    float2 boundsX;
+    float2 boundsY;
+    float2 boundsZ;
+    float2 restRange;
+}
+
+float Random(float id) //Entre 0 y 1
+{
+    return frac(sin(id * 12.9898 + time * 78.233) * 43758.5453);
+}
+
+float RandomRange(float id, float minVal, float maxVal)
+{
+    return minVal + (maxVal - minVal) * Random(id);
+}
+
+[numthreads(256, 1, 1)]
+void CSMain(uint id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint) entityCount)
+        return;
+    if (restTimers[id.x] > 0)
+    {
+        velocities[id.x] = float3(0, 0, 0);
+        restTimers[id.x] -= deltaTime;
+        return;
+    }
+    if (distance(targetPositions[id.x], positions[id.x]) < distThreshold)
+    {
+        float pos_x = RandomRange(id.x * 17, boundsX.x, boundsX.y);
+        float pos_y = RandomRange(id.x * 31, boundsY.x, boundsY.y);
+        float pos_z = RandomRange(id.x * 73, boundsZ.x, boundsZ.y);
+        targetPositions[id.x] = float3(pos_x, pos_y, pos_z);
+        restTimers[id.x] = RandomRange(id.x * 101, restRange.x, restRange.y);
+        return;
+    }
+    if (length(velocities[id.x]) == 0)
+    {
+        float3 dir = normalize(targetPositions[id.x] - positions[id.x]);
+        velocities[id.x] = dir * RandomRange(id.x * 13, speedRange.x, speedRange.y);
+    }
+    positions[id.x] += velocities[id.x] * deltaTime;
+}
