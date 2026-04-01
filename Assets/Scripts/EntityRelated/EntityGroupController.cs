@@ -48,6 +48,7 @@ public class EntityGroupController : MonoBehaviour
         entityDataBuffer.SetData(data);
     }
 
+    //Usado por scripts AComputeMovement para actualizar la información
     public void UpdateInfo(Vector3[] positions, Vector3[] velocities)
     {
         this.positions = positions;
@@ -73,6 +74,7 @@ public class EntityGroupController : MonoBehaviour
         }
     }
 
+    //Corrutina de movimiento básico por CPU:
     IEnumerator UpdateEntityCoroutine(int fishIdx)
     {
         positions[fishIdx] = mesh.vertices[fishIdx];

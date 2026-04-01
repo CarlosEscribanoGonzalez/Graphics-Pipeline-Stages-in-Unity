@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(EntityGroupController))]
 public class FlockMovement : AComputeMovement
 {
-    [SerializeField] private ComputeShader shader;
+    [SerializeField] private ComputeShader cshader;
     [SerializeField] private Vector2 targetChangeInterval = new(2, 5);
     [Header("Flock params:")]
     [SerializeField] private float neighborRadius = 3f;
@@ -17,7 +17,7 @@ public class FlockMovement : AComputeMovement
     [SerializeField] private float weightCohesion = 1f;
     [SerializeField] private float weightTarget = 1f;
     private int kernel;
-    private int groups;
+    private int numBlocks;
     private Vector3[] positions;
     private Vector3[] velocities;
     private EntityGenerator generator;
@@ -31,16 +31,16 @@ public class FlockMovement : AComputeMovement
 
     private void Start()
     {
-        shader = Instantiate(shader);
+        cshader = Instantiate(cshader);
         generator = GetComponent<EntityGenerator>();
         controller = GetComponent<EntityGroupController>();
-        kernel = shader.FindKernel("CSMain");
-        groups = Mathf.CeilToInt(N / 256f);
+        kernel = cshader.FindKernel("CSMain");
+        numBlocks = Mathf.CeilToInt(N / 256f);
         InitShaderParams();
         InitBuffers();
         positions = generator.GetPositions();
         velocities = new Vector3[N];
-        for (int i = 0; i < N; i++) velocities[i] = Random.insideUnitSphere / 100;
+        for (int i = 0; i < N; i++) velocities[i] = Random.insideUnitSphere / 100; //Velocidades aleatorias
         StartCoroutine(ChangeTargetCoroutine());
     }
 
@@ -48,10 +48,10 @@ public class FlockMovement : AComputeMovement
 
     private void Update()
     {
-        shader.SetFloat("deltaTime", Time.deltaTime);
+        cshader.SetFloat("deltaTime", Time.deltaTime);
         posBuffer.SetData(positions);
         velBuffer.SetData(velocities);
-        shader.Dispatch(kernel, groups, 1, 1);
+        cshader.Dispatch(kernel, numBlocks, 1, 1);
         newPosBuffer.GetData(positions);
         newVelBuffer.GetData(velocities);
         controller.UpdateInfo(positions, velocities);
@@ -59,15 +59,15 @@ public class FlockMovement : AComputeMovement
 
     protected override void InitShaderParams()
     {
-        shader.SetInt("entityCount", N);
-        shader.SetFloat("neighborRadius", neighborRadius);
-        shader.SetFloat("separationRadius", separationRadius);
-        shader.SetFloat("maxVel", maxVel);
-        shader.SetFloat("maxForce", maxForce);
-        shader.SetFloat("weightSeparation", weightSeparation);
-        shader.SetFloat("weightAlignment", weightAlignment);
-        shader.SetFloat("weightCohesion", weightCohesion);
-        shader.SetFloat("weightTarget", weightTarget);
+        cshader.SetInt("entityCount", N);
+        cshader.SetFloat("neighborRadius", neighborRadius);
+        cshader.SetFloat("separationRadius", separationRadius);
+        cshader.SetFloat("maxVel", maxVel);
+        cshader.SetFloat("maxForce", maxForce);
+        cshader.SetFloat("weightSeparation", weightSeparation);
+        cshader.SetFloat("weightAlignment", weightAlignment);
+        cshader.SetFloat("weightCohesion", weightCohesion);
+        cshader.SetFloat("weightTarget", weightTarget);
     }
 
     protected override void InitBuffers()
@@ -76,10 +76,10 @@ public class FlockMovement : AComputeMovement
         newPosBuffer = new(N, sizeof(float) * 3);
         velBuffer = new(N, sizeof(float) * 3);
         newVelBuffer = new(N, sizeof(float) * 3);
-        shader.SetBuffer(kernel, "positions", posBuffer);
-        shader.SetBuffer(kernel, "newPositions", newPosBuffer);
-        shader.SetBuffer(kernel, "velocities", velBuffer);
-        shader.SetBuffer(kernel, "newVelocities", newVelBuffer);
+        cshader.SetBuffer(kernel, "positions", posBuffer);
+        cshader.SetBuffer(kernel, "newPositions", newPosBuffer);
+        cshader.SetBuffer(kernel, "velocities", velBuffer);
+        cshader.SetBuffer(kernel, "newVelocities", newVelBuffer);
     }
 
     protected override void ReleaseBuffers()
@@ -95,7 +95,7 @@ public class FlockMovement : AComputeMovement
         while (true)
         {
             Vector3 targetPos = generator.GetPointInDomain();
-            shader.SetVector("targetPos", targetPos);
+            cshader.SetVector("targetPos", targetPos);
             yield return new WaitForSeconds(Utils.RandomInRange(targetChangeInterval));
         }
     }

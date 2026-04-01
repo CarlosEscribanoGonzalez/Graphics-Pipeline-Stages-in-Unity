@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 666ba9961748e7346b2db69392cf4948, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlockMovement
-  shader: {fileID: 7200000, guid: ad4b9a5b8dbc81947865501cf6b4fbe4, type: 3}
+  cshader: {fileID: 7200000, guid: ad4b9a5b8dbc81947865501cf6b4fbe4, type: 3}
   targetChangeInterval: {x: 2, y: 5}
   neighborRadius: 10
   separationRadius: 3

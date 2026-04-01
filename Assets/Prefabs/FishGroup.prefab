@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54fee83c9dc12c5459d9160fc5282a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WanderMovement
-  shader: {fileID: 7200000, guid: c12ce9ca1cbc98b42b8fbea287a23cd5, type: 3}
+  cshader: {fileID: 7200000, guid: c12ce9ca1cbc98b42b8fbea287a23cd5, type: 3}
   speedRange: {x: 0.2, y: 6}
   distThreshold: 0.1
   restRange: {x: 0.5, y: 2}

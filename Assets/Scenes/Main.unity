@@ -282,7 +282,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &185405099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,7 +522,7 @@ Material:
     - _Displacement:
         m_Texture: {fileID: 2800000, guid: e763000cac6d09a48a512ae8c0fd9c43, type: 3}
         m_Scale: {x: 4, y: 4}
-        m_Offset: {x: 20.25674, y: 39.073215}
+        m_Offset: {x: 22.404602, y: 37.27401}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -569,7 +569,7 @@ Material:
     - _MinTessellationFactor: 10
     - _Mode: 3
     - _NearTess: 20
-    - _NormalMapStrength: 1
+    - _NormalMapStrength: 0.4
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Scale: 100
@@ -1073,7 +1073,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &1407973766
 BoxCollider:
   m_ObjectHideFlags: 0

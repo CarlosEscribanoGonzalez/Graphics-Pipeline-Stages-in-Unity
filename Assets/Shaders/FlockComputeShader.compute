@@ -24,21 +24,21 @@ cbuffer Params
 [numthreads(256, 1, 1)]
 void CSMain(uint id : SV_DispatchThreadID)
 {
-    if (id.x >= (uint) entityCount)
+    if (id >= (uint) entityCount)
         return;
     //Obtención de posición y velocidad:
-    float3 pos = positions[id.x];
-    float3 vel = velocities[id.x];
+    float3 pos = positions[id];
+    float3 vel = velocities[id];
     //Inicialización de términos:
     float3 separation = float3(0, 0, 0);
-    int separationCount = 0;
     float3 alignment = float3(0, 0, 0);
-    int neighborCount = 0;
     float3 cohesion = float3(0, 0, 0);
-    
+    int separationCount = 0;
+    int neighborCount = 0;
+    //Cálculo de términos:
     for (int i = 0; i < entityCount; i++)
     {
-        if ((uint) i == id.x)
+        if ((uint) i == id)
             continue;
         float3 sep = pos - positions[i];
         float dist = length(sep);
@@ -61,15 +61,15 @@ void CSMain(uint id : SV_DispatchThreadID)
         alignment = alignment / neighborCount - vel;
         cohesion = cohesion / neighborCount - pos;
     } 
-    //Cálculo de velocidad y posición finales:
-    float3 targetForce = normalize(targetPos - pos);
+    //Cálculo de velocidades y posiciones finales:
+    float3 destForce = normalize(targetPos - pos);
     float3 force = weightSeparation * separation + weightAlignment * alignment + 
-    weightCohesion * cohesion + weightTarget * targetForce;
+    weightCohesion * cohesion + weightTarget * destForce;
     if (length(force) > maxForce)
         force = normalize(force) * maxForce;
     vel += force * deltaTime;
     if (length(vel) > maxVel)
         vel = normalize(vel) * maxVel;
-    newVelocities[id.x] = vel;
-    newPositions[id.x] = pos + vel * deltaTime;
+    newVelocities[id] = vel;
+    newPositions[id] = pos + vel * deltaTime;
 }
