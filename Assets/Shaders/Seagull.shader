@@ -3,7 +3,7 @@ Shader "PGATR/Seagull"
     Properties
     {
 		[Header(Properties)]
-		_WingsPosition("WingsPosition", Range(0, 1)) = 0.9
+		_WingsPosition("WingsPosition", Range(0, 0.5)) = 0.4
 		_MaxWingAngle("MaxWingAngle", Range(-120, 120)) = 45
 		_SeagullTexture("SeagullTexture", 2D) = "white" {}
 		_StartingRot("StartingRot", Float) = 90
@@ -13,12 +13,6 @@ Shader "PGATR/Seagull"
 	#include "UnityCG.cginc"
 	#include "Autolight.cginc"
 	#define NUM_VERTEX 18
-	// Returns a number in the 0...1 range.
-	float rand(float3 co)
-	{
-		return frac(sin(dot(co.xyz, float3(12.9898, 78.233, 53.539))) * 43758.5453);
-	}
-	
 	// Construct a rotation matrix that rotates around the provided axis, sourced from:
 	// https://gist.github.com/keijiro/ee439d5e7388f3aafc5296005c8c3f33
 	float3x3 AngleAxis3x3(float angle, float3 axis)
@@ -119,7 +113,7 @@ Shader "PGATR/Seagull"
 				float startRot = _StartingRot * (entityData[idx].flip ? -1 : 1);
 				float3x3 rotation = AngleAxis3x3(radians(startRot), float3(0, 0, -1));
 				float3 right = mul(rotation, float3(1, 0, 0));
-				float3 forward = mul(rotation, float3(0, 0, 1));
+				float3 forward = float3(0, 0, 1);
 				float3 up = cross(forward, right);
 				float3 offset_x = 0.5f * entityData[idx].sizeX * right * (entityData[idx].flip ? -1 : 1);
 				float3 offset_y = 0.5f * entityData[idx].sizeY * up;

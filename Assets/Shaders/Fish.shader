@@ -113,7 +113,7 @@ Shader "PGATR/Fish"
 				//Configuración de ejes:
 				float3x3 rotation = AngleAxis3x3(radians(entityData[idx].rotation), float3(0, 0, -1));
 				float3 right = mul(rotation, float3(1, 0, 0));
-				float3 forward = mul(rotation, float3(0, 0, 1));
+				float3 forward = float3(0, 0, 1);
 				float3 up = cross(forward, right);
 				float3 offset_x = 0.5f * entityData[idx].sizeX * right * (entityData[idx].flip ? -1 : 1);
 				float3 offset_y = 0.5f * entityData[idx].sizeY * up;
