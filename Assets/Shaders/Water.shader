@@ -9,8 +9,8 @@ Shader "PGATR/Water"
 		_Scale("Scale", Float) = 50
 		_MaxTessellationFactor("Max Tessellation Factor", Range(1, 128)) = 50
 		_MinTessellationFactor("Min Tessellation Factor", Range(1, 128)) = 1
-		_MinDist("Min Dist", Float) = 3
-		_MaxDist("Max Dist", Float) = 50
+		_NearTess("Near Tess", Float) = 20
+		_FarTess("Far Tess", Float) = 200
 		_MaxHeight("Max Height", Float) = 2
 		[Header(Waves)]
 		_Displacement("Displacement", 2D) = "white"{}
@@ -47,8 +47,8 @@ Shader "PGATR/Water"
 			float _Scale;
 			float _MaxTessellationFactor;
 			float _MinTessellationFactor;
-			float _MinDist;
-			float _MaxDist;
+			float _NearTess;
+			float _FarTess;
 			float _MaxHeight;
 			sampler2D _Displacement;
 			float4 _Displacement_ST;
@@ -95,9 +95,9 @@ Shader "PGATR/Water"
 			TessellationFactors patchConstantFunction (InputPatch<VertexOutput, 3> patch)
 			{
 				float dist = min(patch[0].distToCam, min(patch[1].distToCam, patch[2].distToCam));
-				dist = clamp(dist, _MinDist, _MaxDist);
-				float w = (dist - _MinDist) / (_MaxDist - _MinDist);
-				float tessFactor = lerp(_MinTessellationFactor, _MaxTessellationFactor, 1 - w);
+				dist = clamp(dist, _NearTess, _FarTess);
+				float t = (dist - _NearTess) / (_FarTess - _NearTess);
+				float tessFactor = lerp(_MinTessellationFactor, _MaxTessellationFactor, 1 - t);
 				TessellationFactors f;
 				f.edge[0] = tessFactor;
 				f.edge[1] = tessFactor;
@@ -121,18 +121,18 @@ Shader "PGATR/Water"
 									float3 barycentricCoordinates : SV_DOMAINLOCATION)
 			{
 				VertexOutput v;
-
+				//Interpolación:
 				#define MY_DOMAIN_PROGRAM_INTERPOLATE(fieldName) v.fieldName = \
 					patch[0].fieldName * barycentricCoordinates.x + \
 					patch[1].fieldName * barycentricCoordinates.y + \
 					patch[2].fieldName * barycentricCoordinates.z;
-
 				MY_DOMAIN_PROGRAM_INTERPOLATE(vertex)
 				MY_DOMAIN_PROGRAM_INTERPOLATE(normal)
 				MY_DOMAIN_PROGRAM_INTERPOLATE(tangent)
 				MY_DOMAIN_PROGRAM_INTERPOLATE(uv)
+				//Desplazamiento:
 				float2 uv = v.uv * _Displacement_ST.xy + _Displacement_ST.zw;
-				float vertOffset = tex2Dlod(_Displacement, float4(uv, 0, 0)).x * 2 - 1;
+				float vertOffset = tex2Dlod(_Displacement, float4(uv, 0, 0)).x * 2.0 - 1.0;
 				float4 pos = v.vertex + float4(0, vertOffset * _MaxHeight, 0, 0);
 				v.worldPos = mul(UNITY_MATRIX_M, pos);
 				v.vertex = UnityObjectToClipPos(pos);

@@ -3,10 +3,10 @@ Shader "PGATR/Seagull"
     Properties
     {
 		[Header(Properties)]
-		_WingsPosition("WingsPosition", Range(0, 0.5)) = 0.4
-		_MaxWingAngle("MaxWingAngle", Range(-120, 120)) = 45
-		_SeagullTexture("SeagullTexture", 2D) = "white" {}
-		_StartingRot("StartingRot", Float) = 90
+		_WingsPosition("Wings Position", Range(0, 0.5)) = 0.4
+		_MaxWingAngle("Max Wing Angle", Range(-120, 120)) = 45
+		_SeagullTexture("Seagull Texture", 2D) = "white" {}
+		_StartingRot("Starting Rot", Float) = 90
     }
 
 	CGINCLUDE

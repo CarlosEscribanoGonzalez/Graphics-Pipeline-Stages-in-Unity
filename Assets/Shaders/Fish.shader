@@ -3,9 +3,9 @@ Shader "PGATR/Fish"
     Properties
     {
 		[Header(Properties)]
-		_TailPosition("TailPosition", Range(0, 1)) = 0.9
-		_MaxTailAngle("MaxTailAngle", Range(-120, 120)) = 45
-		_FishTexture("FishTexture", 2D) = "white" {}
+		_TailPosition("Tail Position", Range(0, 1)) = 0.9
+		_MaxTailAngle("Max Tail Angle", Range(-120, 120)) = 45
+		_FishTexture("Fish Texture", 2D) = "white" {}
     }
 
 	CGINCLUDE

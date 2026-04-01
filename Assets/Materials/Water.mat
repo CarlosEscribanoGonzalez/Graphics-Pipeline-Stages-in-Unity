@@ -80,14 +80,14 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 1
     - _GlossyReflections: 1
-    - _MaxDist: 133.36
-    - _MaxHeight: 1.2
+    - _MaxDist: 200
+    - _MaxHeight: 2.5
     - _MaxTessellationFactor: 128
     - _Metallic: 0
     - _MinDist: 3
     - _MinTessellationFactor: 10
     - _Mode: 3
-    - _NormalMapStrength: 0.3
+    - _NormalMapStrength: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Scale: 100

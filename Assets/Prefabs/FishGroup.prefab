@@ -105,13 +105,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48d330614d6c5a64dbd789b3a2a13e82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishManager
-  numEntities: 200
+  numEntities: 2000
   widthRange: {x: 0.75, y: 1.25}
   heightRange: {x: 0.75, y: 1.25}
   matchWidthAndHeight: 0
-  bounds_x: {x: -50, y: 50}
-  bounds_y: {x: 0, y: 10.1}
-  bounds_z: {x: -50, y: 50}
+  bounds_x: {x: -150, y: 150}
+  bounds_y: {x: -250, y: 10.1}
+  bounds_z: {x: -150, y: 150}
   initRandomPositions: 1
 --- !u!114 &5219978295112789492
 MonoBehaviour:

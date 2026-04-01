@@ -282,7 +282,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &185405099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,7 +522,7 @@ Material:
     - _Displacement:
         m_Texture: {fileID: 2800000, guid: e763000cac6d09a48a512ae8c0fd9c43, type: 3}
         m_Scale: {x: 4, y: 4}
-        m_Offset: {x: 18.271135, y: 39.467194}
+        m_Offset: {x: 20.25674, y: 39.073215}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -557,6 +557,7 @@ Material:
     - _DistMaxTessellation: 3
     - _DistMinTessellation: 50
     - _DstBlend: 10
+    - _FarTess: 300
     - _GlossMapScale: 1
     - _Glossiness: 1
     - _GlossyReflections: 1
@@ -567,7 +568,8 @@ Material:
     - _MinDist: 3
     - _MinTessellationFactor: 10
     - _Mode: 3
-    - _NormalMapStrength: 0.3
+    - _NearTess: 20
+    - _NormalMapStrength: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Scale: 100
@@ -1071,7 +1073,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1407973766
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2261,30 +2263,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3323150618492854992, guid: baab9041aa5898849be53251de1477b7, type: 3}
-      propertyPath: bounds_x.x
-      value: -150
-      objectReference: {fileID: 0}
-    - target: {fileID: 3323150618492854992, guid: baab9041aa5898849be53251de1477b7, type: 3}
-      propertyPath: bounds_x.y
-      value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 3323150618492854992, guid: baab9041aa5898849be53251de1477b7, type: 3}
-      propertyPath: bounds_y.x
-      value: -250
-      objectReference: {fileID: 0}
-    - target: {fileID: 3323150618492854992, guid: baab9041aa5898849be53251de1477b7, type: 3}
-      propertyPath: bounds_z.x
-      value: -150
-      objectReference: {fileID: 0}
-    - target: {fileID: 3323150618492854992, guid: baab9041aa5898849be53251de1477b7, type: 3}
-      propertyPath: bounds_z.y
-      value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 3323150618492854992, guid: baab9041aa5898849be53251de1477b7, type: 3}
-      propertyPath: numEntities
-      value: 2000
-      objectReference: {fileID: 0}
     - target: {fileID: 4397976210865053586, guid: baab9041aa5898849be53251de1477b7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
