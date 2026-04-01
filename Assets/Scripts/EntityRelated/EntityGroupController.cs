@@ -4,8 +4,9 @@ using System.Collections;
 [RequireComponent(typeof(EntityGenerator))]
 public class EntityGroupController : MonoBehaviour
 {
-    [SerializeField] private float animSpeedMult = 5f; //Multiplicador velocidad animación coleteo
-    [SerializeField] private float maxAnimSpeed = 5f; //Multiplicador velocidad animación coleteo
+    [Header("Animation")]
+    [SerializeField] private float animSpeedMult = 5f; //Multiplicador velocidad animación
+    [SerializeField] private float maxAnimSpeed = 5f; //Máximo de velocidad de la animación
     [SerializeField] private float flipThreshold = 0.05f;
     [Header("Own movement")]
     [SerializeField] private Vector2 speedRange = new(1, 10); //Rango de velocidades
@@ -94,13 +95,13 @@ public class EntityGroupController : MonoBehaviour
             }
         }
     }
-}
 
-public struct EntityData
-{
-    public int flip;
-    public float rotation;
-    public float speed;
-    public float sizeX;
-    public float sizeY;
+    struct EntityData
+    {
+        public int flip;
+        public float rotation;
+        public float speed;
+        public float sizeX;
+        public float sizeY;
+    }
 }

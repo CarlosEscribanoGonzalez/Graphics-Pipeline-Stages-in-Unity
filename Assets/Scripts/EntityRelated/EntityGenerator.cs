@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(MeshFilter))]
 public class EntityGenerator : MonoBehaviour
 {
     [SerializeField] private int numEntities;
     [SerializeField] private Vector2 widthRange;
-    [SerializeField] private Vector2 heightRange;
+    [SerializeField] private Vector2 heightRange; 
     [SerializeField] private bool matchWidthAndHeight;
     [SerializeField] private Vector2 bounds_x = new(-10, 10);
     [SerializeField] private Vector2 bounds_y = new(-10, 10);
@@ -23,9 +24,12 @@ public class EntityGenerator : MonoBehaviour
         Mesh pointMesh = new()
         {
             vertices = GenerateVertices(),
-            triangles = GenerateTriangles(),
-            bounds = new(Vector3.zero, new(bounds_x.y - bounds_x.x, bounds_y.y - bounds_y.x,
-                bounds_z.y - bounds_z.x))
+            //Aunque sea una point mesh, sin triángulos no va a renderizar nada
+            //En este caso, los triángulos son triplets del mismo vértice
+            triangles = GenerateTriangles(), 
+            //Los bounds son necesarios para evitar frustum culling indeseado
+            bounds = new(Utils.GetDomainMidPoint(bounds_x, bounds_y, bounds_z), 
+                new(bounds_x.y - bounds_x.x, bounds_y.y - bounds_y.x, bounds_z.y - bounds_z.x))
         };
         meshFilter.mesh = pointMesh;
     }
@@ -43,10 +47,13 @@ public class EntityGenerator : MonoBehaviour
         return meshFilter.mesh.vertices;
     }
 
+    float[] sizesX = null;
+    float[] sizesY = null;
     public (float[], float[]) GetSizes()
     {
-        float[] sizesX = new float[numEntities];
-        float[] sizesY = new float[numEntities];
+        if (sizesX != null) return (sizesX, sizesY);
+        sizesX = new float[numEntities];
+        sizesY = new float[numEntities];
         for (int i = 0; i < numEntities; i++)
         {
             sizesX[i] = Utils.RandomInRange(widthRange);
@@ -66,7 +73,7 @@ public class EntityGenerator : MonoBehaviour
         return entityPositions.ToArray();
     }
 
-    private int[] GenerateTriangles() //Si no son triángulos no se pintan
+    private int[] GenerateTriangles()
     {
         List<int> triangles = new();
         for (int i = 0; i < numEntities; i++)

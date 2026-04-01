@@ -12,12 +12,6 @@ Shader "PGATR/Fish"
 	#include "UnityCG.cginc"
 	#include "Autolight.cginc"
 	#define NUM_VERTEX 12
-	// Returns a number in the 0...1 range.
-	float rand(float3 co)
-	{
-		return frac(sin(dot(co.xyz, float3(12.9898, 78.233, 53.539))) * 43758.5453);
-	}
-	
 	// Construct a rotation matrix that rotates around the provided axis, sourced from:
 	// https://gist.github.com/keijiro/ee439d5e7388f3aafc5296005c8c3f33
 	float3x3 AngleAxis3x3(float angle, float3 axis)
