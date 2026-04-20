@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 public class Elevator : MonoBehaviour
 {
@@ -13,6 +15,8 @@ public class Elevator : MonoBehaviour
     private ElevatorPosition state = ElevatorPosition.Up;
     public event Action OnDestinationReached;
 
+    [SerializeField] private List<Animator> visualAnims;
+
     void Awake()
     {
         playerMovement = FindFirstObjectByType<PlayerMovement>();
@@ -24,7 +28,8 @@ public class Elevator : MonoBehaviour
     {
         state = state == ElevatorPosition.Up ? ElevatorPosition.Down : ElevatorPosition.Up;
         Vector3 targetPos = state == ElevatorPosition.Up ? startPosition : destination.position;
-        StopAllCoroutines();
+        
+        StopAllCoroutines();        
         StartCoroutine(MovePlatformCoroutine(targetPos));
     }
 
@@ -33,11 +38,19 @@ public class Elevator : MonoBehaviour
         doorCollider.enabled = true;
         playerMovement.enabled = false;
         playerMovement.transform.SetParent(platform);
+        foreach (var anim in visualAnims)
+        {
+            anim.SetTrigger("DoorAnim");
+        }
         while (platform.position != targetPos)
         {
             platform.position = 
                 Vector3.MoveTowards(platform.position, targetPos, speed * Time.deltaTime);
             yield return null;
+        }
+        foreach (var anim in visualAnims)
+        {
+            anim.SetTrigger("DoorAnim");
         }
         doorCollider.enabled = false;
         playerMovement.enabled = true;
