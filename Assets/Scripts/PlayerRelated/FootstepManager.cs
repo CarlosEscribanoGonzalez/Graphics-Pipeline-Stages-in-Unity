@@ -37,24 +37,25 @@ public class FootstepManager : MonoBehaviour
 
                 switch (hit.collider.tag) {
                     case ("Wood"):
-                        //audioManager.PlaySFX("");
+                        audioManager.PlaySFX(stepSounds[0]);
                         break;
                     case ("Sand"):
-                        //audioManager.PlaySFX("");
+                        audioManager.PlaySFX(stepSounds[1]);
                         break;
                     case ("Rock"):
-                        //audioManager.PlaySFX("");
+                        audioManager.PlaySFX(stepSounds[2]);
                         break;
                     case ("Water"):
-                        //audioManager.PlaySFX("");
+                        audioManager.PlaySFX(stepSounds[3]);
                         break;
                     case ("Grass"):
-                        //audioManager.PlaySFX("");
+                        audioManager.PlaySFX(stepSounds[4]);
                         break;
                     case ("Metal"):
-                        //audioManager.PlaySFX("");
+                        audioManager.PlaySFX(stepSounds[5]);
                         break;
                     default:
+                        audioManager.PlaySFX(stepSounds[0]);
                         break;
                 }               
                 Debug.Log(hit.collider.tag);

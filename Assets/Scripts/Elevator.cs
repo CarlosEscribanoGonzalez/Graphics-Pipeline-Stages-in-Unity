@@ -14,12 +14,14 @@ public class Elevator : MonoBehaviour
     private Vector3 startPosition;
     private ElevatorPosition state = ElevatorPosition.Up;
     public event Action OnDestinationReached;
+    private AudioManager audioManager;
 
     [SerializeField] private List<Animator> visualAnims;
 
     void Awake()
     {
         playerMovement = FindFirstObjectByType<PlayerMovement>();
+        audioManager = FindFirstObjectByType<AudioManager>();
         startPosition = platform.position;
         doorCollider.enabled = false;
     }
@@ -42,12 +44,14 @@ public class Elevator : MonoBehaviour
         {
             anim.SetTrigger("DoorAnim");
         }
+        audioManager.StopMusic();
         while (platform.position != targetPos)
         {
             platform.position = 
                 Vector3.MoveTowards(platform.position, targetPos, speed * Time.deltaTime);
             yield return null;
         }
+        audioManager.PlayMusic();
         foreach (var anim in visualAnims)
         {
             anim.SetTrigger("DoorAnim");
