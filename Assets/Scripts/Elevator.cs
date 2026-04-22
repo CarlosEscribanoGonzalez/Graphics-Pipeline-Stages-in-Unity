@@ -15,6 +15,7 @@ public class Elevator : MonoBehaviour
     private ElevatorPosition state = ElevatorPosition.Up;
     public event Action OnDestinationReached;
     private AudioManager audioManager;
+    private SeagullScreech seagullController;
 
     [SerializeField] private List<Animator> visualAnims;
 
@@ -22,8 +23,10 @@ public class Elevator : MonoBehaviour
     {
         playerMovement = FindFirstObjectByType<PlayerMovement>();
         audioManager = FindFirstObjectByType<AudioManager>();
+        seagullController = FindFirstObjectByType<SeagullScreech>();       
         startPosition = platform.position;
         doorCollider.enabled = false;
+
     }
 
     public void TogglePos()
@@ -45,6 +48,7 @@ public class Elevator : MonoBehaviour
             anim.SetTrigger("DoorAnim");
         }
         audioManager.StopMusic();
+        seagullController.changeStatus();
         while (platform.position != targetPos)
         {
             platform.position = 

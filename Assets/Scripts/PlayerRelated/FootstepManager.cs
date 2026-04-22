@@ -58,7 +58,7 @@ public class FootstepManager : MonoBehaviour
                         audioManager.PlaySFX(stepSounds[0]);
                         break;
                 }               
-                Debug.Log(hit.collider.tag);
+                //Debug.Log(hit.collider.tag);
             }
         }
     }
