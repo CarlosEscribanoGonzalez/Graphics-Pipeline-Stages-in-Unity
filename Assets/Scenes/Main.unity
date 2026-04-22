@@ -500,6 +500,7 @@ MonoBehaviour:
   doorCollider: {fileID: 585374165}
   speed: 30
   visualAnims: []
+  visualRenders: []
 --- !u!4 &185405100
 Transform:
   m_ObjectHideFlags: 0
@@ -694,6 +695,11 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!23 &298073183 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7468539865944845081, guid: 917e987ebcc66f144804ecc5b0583e2e, type: 3}
+  m_PrefabInstance: {fileID: 1837864955}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &332008722
 GameObject:
   m_ObjectHideFlags: 0
@@ -900,7 +906,7 @@ Material:
     - _Displacement:
         m_Texture: {fileID: 2800000, guid: e763000cac6d09a48a512ae8c0fd9c43, type: 3}
         m_Scale: {x: 4, y: 4}
-        m_Offset: {x: 26.986515, y: 44.624474}
+        m_Offset: {x: 27.74012, y: 45.56114}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -5645,6 +5651,9 @@ MonoBehaviour:
   visualAnims:
   - {fileID: 5804818640455045547}
   - {fileID: 4910159473277874658}
+  visualRenders:
+  - {fileID: 298073183}
+  - {fileID: 1483258810}
 --- !u!65 &6384439031500681416
 BoxCollider:
   m_ObjectHideFlags: 0
