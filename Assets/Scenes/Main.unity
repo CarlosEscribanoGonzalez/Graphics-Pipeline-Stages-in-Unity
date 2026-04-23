@@ -501,6 +501,7 @@ MonoBehaviour:
   speed: 30
   visualAnims: []
   visualRenders: []
+  elevatorMusic: {fileID: 0}
 --- !u!4 &185405100
 Transform:
   m_ObjectHideFlags: 0
@@ -906,7 +907,7 @@ Material:
     - _Displacement:
         m_Texture: {fileID: 2800000, guid: e763000cac6d09a48a512ae8c0fd9c43, type: 3}
         m_Scale: {x: 4, y: 4}
-        m_Offset: {x: 22.964977, y: 47.762005}
+        m_Offset: {x: 22.905298, y: 44.669983}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -2047,6 +2048,10 @@ PrefabInstance:
     - target: {fileID: 5180984300957224585, guid: baab9041aa5898849be53251de1477b7, type: 3}
       propertyPath: m_Name
       value: FishGroup (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5180984300957224585, guid: baab9041aa5898849be53251de1477b7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5219978295112789492, guid: baab9041aa5898849be53251de1477b7, type: 3}
       propertyPath: speedRange.x
@@ -3390,6 +3395,10 @@ PrefabInstance:
     - target: {fileID: 5180984300957224585, guid: baab9041aa5898849be53251de1477b7, type: 3}
       propertyPath: m_Name
       value: FishGroup (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5180984300957224585, guid: baab9041aa5898849be53251de1477b7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5219978295112789492, guid: baab9041aa5898849be53251de1477b7, type: 3}
       propertyPath: maxAnimSpeed
@@ -5085,8 +5094,8 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 2f1ed55447500704bb04d6a3a5a81b64, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 0.216
+  m_PlayOnAwake: 0
+  m_Volume: 0.136
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -5130,7 +5139,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -5920,6 +5929,7 @@ MonoBehaviour:
   visualRenders:
   - {fileID: 298073183}
   - {fileID: 1483258810}
+  elevatorMusic: {fileID: 3743848688735190178}
 --- !u!65 &6384439031500681416
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6598,6 +6608,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3323150618492854992, guid: baab9041aa5898849be53251de1477b7, type: 3}
+      propertyPath: bounds_x.x
+      value: -77.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3323150618492854992, guid: baab9041aa5898849be53251de1477b7, type: 3}
+      propertyPath: bounds_x.y
+      value: 67.8
+      objectReference: {fileID: 0}
     - target: {fileID: 3323150618492854992, guid: baab9041aa5898849be53251de1477b7, type: 3}
       propertyPath: bounds_y.x
       value: -47.8

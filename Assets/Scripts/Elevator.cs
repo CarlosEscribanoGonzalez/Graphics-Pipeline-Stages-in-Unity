@@ -19,6 +19,9 @@ public class Elevator : MonoBehaviour
 
     [SerializeField] private List<Animator> visualAnims;
     [SerializeField] private List<MeshRenderer> visualRenders;
+
+    [SerializeField] private AudioSource elevatorMusic;
+
     void Awake()
     {
         playerMovement = FindFirstObjectByType<PlayerMovement>();
@@ -52,6 +55,7 @@ public class Elevator : MonoBehaviour
             mesh.enabled = false;
         }
         audioManager.StopMusic();
+        elevatorMusic.Play();
         seagullController.changeStatus();
         while (platform.position != targetPos)
         {
@@ -64,6 +68,7 @@ public class Elevator : MonoBehaviour
         {
             mesh.enabled = true;
         }
+        elevatorMusic.Stop();
         foreach (var anim in visualAnims)
         {
             anim.SetTrigger("DoorAnim");
