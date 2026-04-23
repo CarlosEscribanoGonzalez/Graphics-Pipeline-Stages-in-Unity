@@ -59,8 +59,7 @@ public class EntityGroupController : MonoBehaviour
             bool flip = Mathf.Abs(dot) > flipThreshold ? dot > 0 : data[i].flip == 1;
             data[i].flip = flip ? 1 : 0;
             data[i].rotation = (flip ? -1 : 1) * Mathf.Rad2Deg * Mathf.Atan(dir.y * 2);
-            float speed = Mathf.Lerp(data[i].speed, velocities[i].magnitude * animSpeedMult, Time.deltaTime);
-            data[i].speed = Mathf.Min(speed, maxAnimSpeed);
+            data[i].speed = Mathf.Min(velocities[i].magnitude, maxAnimSpeed);
         }
     }
 
