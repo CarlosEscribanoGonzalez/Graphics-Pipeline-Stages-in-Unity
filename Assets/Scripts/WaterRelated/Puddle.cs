@@ -28,7 +28,6 @@ public class Puddle : MonoBehaviour
     {
         filter = GetComponent<MeshFilter>();
         filter.mesh = GenerateMesh();
-        GetComponent<MeshCollider>().sharedMesh = filter.mesh;
         SetupInitialSimulationState();
     }
 
