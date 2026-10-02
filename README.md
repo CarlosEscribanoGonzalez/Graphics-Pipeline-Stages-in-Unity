@@ -39,6 +39,10 @@ Unity project (Built-in Render Pipeline) built to explore the different stages o
 * Wander behavior: each entity picks a random destination and speed, travels to it and rests for a random time before starting again, all computed on the GPU
 * Flocking behavior: Boids model (cohesion, alignment and separation), plus an extra destination force that makes the flock follow a shared target that changes at random intervals
 * Fully GPU-driven positions and velocities, removing the per-entity coroutines of the basic CPU behavior and scaling to much larger groups
+<p align = "center">
+  <img width="300" height="300" alt="wander" src="https://github.com/user-attachments/assets/0c3f23c7-269d-4290-9f3d-631527b5086c" />
+  <img width="300" height="300" alt="flock" src="https://github.com/user-attachments/assets/e74ddc50-5ebb-421a-b3f9-0062536a6dd8" />
+</p>
 
 **Wave equation: interactive puddle**
 * Water surface simulated (fixed timestep) in real time by solving the 2D wave equation on a grid of cells, with the mesh generated procedurally
