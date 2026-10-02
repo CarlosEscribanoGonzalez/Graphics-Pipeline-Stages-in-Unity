@@ -21,8 +21,8 @@ Unity project (Built-in Render Pipeline) built to explore the different stages o
 * Animated waves with a changing wind direction, simulated by smoothly varying the offset of the displacement map
 * Adaptive tessellation based on camera distance, with maximum and minimum factors and near/far distances
 <p align = "center">
-  <img width="442" height="250" alt="Ocean" src="https://github.com/user-attachments/assets/da2e1bed-89a8-4cfd-b0d0-9ac1e5e10bd6" />
-  <img width="462" height="250" alt="Adaptive tesellation" src="https://github.com/user-attachments/assets/60c93ff8-7594-4b4e-bfaa-973d68be3d88" />
+  <img width="300" height="300" alt="Ocean" src="https://github.com/user-attachments/assets/385f4cb4-2fd3-450d-91f0-43302e9a99e8" />
+  <img width="300" height="300" alt="Adaptive tesellation" src="https://github.com/user-attachments/assets/052eb571-c1e7-4118-9e26-d354833224fd" />
 </p>
 
 **Geometry and tessellation: procedural grass**
@@ -31,6 +31,9 @@ Unity project (Built-in Render Pipeline) built to explore the different stages o
 * Blades are oriented using the surface's tangent space, so they grow along the surface normal
 * Wind driven by a scrolling distortion map with adjustable frequency and strength
 * Second pass that renders the surface itself as the ground beneath the grass, so there are no gaps between blades
+<p align = "center">
+  <img width="531" height="300" alt="Grass" src="https://github.com/user-attachments/assets/d86fbbaf-183f-4a09-ae54-25286b6c2d41" />
+</p>
 
 **Compute shaders: entity movement**
 * Wander behavior: each entity picks a random destination and speed, travels to it and rests for a random time before starting again, all computed on the GPU
