@@ -9,6 +9,10 @@ Unity project (Built-in Render Pipeline) built to explore the different stages o
 * Seagulls: wing flapping animation with symmetric wings controlled by a single parameter
 * Horizontal flip according to the direction of movement relative to the camera, and animation speed proportional to movement speed
 * Per-entity data sent from CPU to GPU through a `GraphicsBuffer`
+<p align = "center">
+  <img width="300" height="300" alt="Fish" src="https://github.com/user-attachments/assets/fcb61dd4-bd13-4314-a1c0-226f0ebe3b9f" />
+  <img width="300" height="300" alt="Seagull" src="https://github.com/user-attachments/assets/ebe628f1-60c9-4c3f-b3d0-7e6ae4ff9c8c" />
+</p>
 
 **Tessellation: ocean with displacement mapping**
 * Displacement map applied in the domain shader to move the vertices of a plane
@@ -16,6 +20,10 @@ Unity project (Built-in Render Pipeline) built to explore the different stages o
 * Blinn-Phong lighting with Fresnel-attenuated specular
 * Animated waves with a changing wind direction, simulated by smoothly varying the offset of the displacement map
 * Adaptive tessellation based on camera distance, with maximum and minimum factors and near/far distances
+<p align = "center">
+  <img width="442" height="250" alt="Ocean" src="https://github.com/user-attachments/assets/da2e1bed-89a8-4cfd-b0d0-9ac1e5e10bd6" />
+  <img width="462" height="250" alt="Adaptive tesellation" src="https://github.com/user-attachments/assets/60c93ff8-7594-4b4e-bfaa-973d68be3d88" />
+</p>
 
 **Geometry and tessellation: procedural grass**
 * Geometry shader that grows a blade of grass from every triangle of the surface, with tessellation to control how dense the grass is (uniform factor)
