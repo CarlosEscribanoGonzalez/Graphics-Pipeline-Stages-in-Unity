@@ -110,39 +110,39 @@ Shader "PGATR/Fish"
 			void geo(point VertexOutput IN[1], inout TriangleStream<GeometryOutput> stream)
 			{
 				int idx = IN[0].ID;
-				//Configuración de ejes:
+				//Axis configuration:
 				float3x3 rotation = AngleAxis3x3(radians(entityData[idx].rotation), float3(0, 0, -1));
 				float3 right = mul(rotation, float3(1, 0, 0));
 				float3 forward = float3(0, 0, 1);
 				float3 up = cross(forward, right);
 				float3 offset_x = 0.5f * entityData[idx].sizeX * right * (entityData[idx].flip ? -1 : 1);
 				float3 offset_y = 0.5f * entityData[idx].sizeY * up;
-				//Creación de vértices:
+				//Vertex creation:
 				float3 center = IN[0].vertex.xyz;
-				float3 point0 = center - offset_x + offset_y; //Arriba izquierda
-				float3 point1 = center - offset_x - offset_y; //Abajo izquierda
-				float3 point2 = center + offset_x - offset_y; //Abajo derecha
-				float3 point3 = center + offset_x + offset_y; //Arriba derecha
-				float3 midpoint0 = point0 + _TailPosition * (point3 - point0); //Punto cola pez arriba
-				float3 midpoint1 = point1 + _TailPosition * (point2 - point1); //Punto cola pez abajo
-				//Coleteo:
+				float3 point0 = center - offset_x + offset_y; //Up-left
+				float3 point1 = center - offset_x - offset_y; //Bottom-left
+				float3 point2 = center + offset_x - offset_y; //Bottom-right
+				float3 point3 = center + offset_x + offset_y; //Up-right
+				float3 midpoint0 = point0 + _TailPosition * (point3 - point0); //Tail's upper point
+				float3 midpoint1 = point1 + _TailPosition * (point2 - point1); //Tail's bottom point
+				//Tail wag:
 				float angle = sin(_Time.y * entityData[idx].speed) * _MaxTailAngle;
 				float3x3 tailRot = AngleAxis3x3(radians(angle), up);
 				point2 = mul(tailRot, point2 - midpoint1) + midpoint1;
 				point3 = mul(tailRot, point3 - midpoint0) + midpoint0;
-				//Triángulo cuerpo inferior izquierdo:
+				//Body's bottom-left triangle:
 				stream.Append(GenerateVertex(point0, float2(0, 1)));
 				stream.Append(GenerateVertex(point1, float2(0, 0)));
 				stream.Append(GenerateVertex(midpoint1, float2(_TailPosition, 0)));
-				//Triángulo cuerpo superior derecho:
+				//Body's top-right triangle:
 				stream.Append(GenerateVertex(point0, float2(0, 1)));
 				stream.Append(GenerateVertex(midpoint1, float2(_TailPosition, 0)));
 				stream.Append(GenerateVertex(midpoint0, float2(_TailPosition, 1)));
-				//Triángulo cola inferior izquierdo:
+				//Tail's bottom-left triangle:
 				stream.Append(GenerateVertex(midpoint0, float2(_TailPosition, 1)));
 				stream.Append(GenerateVertex(midpoint1, float2(_TailPosition, 0)));
 				stream.Append(GenerateVertex(point2, float2(1, 0)));
-				//Triángulo cola superior derecho: 
+				//Tail's top-right triangle: 
 				stream.Append(GenerateVertex(midpoint0, float2(_TailPosition, 1)));
 				stream.Append(GenerateVertex(point2, float2(1, 0)));
 				stream.Append(GenerateVertex(point3, float2(1, 1)));

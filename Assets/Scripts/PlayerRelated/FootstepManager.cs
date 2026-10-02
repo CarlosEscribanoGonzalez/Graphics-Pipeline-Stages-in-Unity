@@ -34,7 +34,6 @@ public class FootstepManager : MonoBehaviour
 
             if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1.5f, groudLayer))
             {
-
                 switch (hit.collider.tag) {
                     case ("Wood"):
                         audioManager.PlaySFX(stepSounds[0]);
@@ -58,7 +57,6 @@ public class FootstepManager : MonoBehaviour
                         audioManager.PlaySFX(stepSounds[0]);
                         break;
                 }               
-                //Debug.Log(hit.collider.tag);
             }
         }
     }

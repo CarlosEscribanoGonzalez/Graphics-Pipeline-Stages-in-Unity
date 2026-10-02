@@ -109,7 +109,7 @@ Shader "PGATR/Seagull"
 			void geo(point VertexOutput IN[1], inout TriangleStream<GeometryOutput> stream)
 			{
 				int idx = IN[0].ID;
-				//Configuración de ejes:
+				//Axis configuration:
 				float startRot = _StartingRot * (entityData[idx].flip ? -1 : 1);
 				float3x3 rotation = AngleAxis3x3(radians(startRot), float3(0, 0, -1));
 				float3 right = mul(rotation, float3(1, 0, 0));
@@ -117,17 +117,17 @@ Shader "PGATR/Seagull"
 				float3 up = cross(forward, right);
 				float3 offset_x = 0.5f * entityData[idx].sizeX * right * (entityData[idx].flip ? -1 : 1);
 				float3 offset_y = 0.5f * entityData[idx].sizeY * up;
-				//Creación de vértices:
+				//Vertex creation:
 				float3 center = IN[0].vertex.xyz;
-				float3 point0 = center - offset_x + offset_y; //Arriba izquierda
-				float3 point1 = center - offset_x - offset_y; //Abajo izquierda
-				float3 point2 = center + offset_x - offset_y; //Abajo derecha
-				float3 point3 = center + offset_x + offset_y; //Arriba derecha
-				float3 midpoint0 = point0 + _WingsPosition * (point3 - point0); //Punto ala izq arriba
-				float3 midpoint1 = point1 + _WingsPosition * (point2 - point1); //Punto ala izq abajo
-				float3 midpoint2 = point0 + (1 - _WingsPosition) * (point3 - point0); //Punto ala dcha arriba
-				float3 midpoint3 = point1 + (1 - _WingsPosition) * (point2 - point1); //Punto ala dcha abajo
-				//Aleteo:
+				float3 point0 = center - offset_x + offset_y; //Up-left
+				float3 point1 = center - offset_x - offset_y; //Bottom-left
+				float3 point2 = center + offset_x - offset_y; //Bottom-right
+				float3 point3 = center + offset_x + offset_y; //Up-right
+				float3 midpoint0 = point0 + _WingsPosition * (point3 - point0); //Left wing's upper point
+				float3 midpoint1 = point1 + _WingsPosition * (point2 - point1); //Left wing's bottom point
+				float3 midpoint2 = point0 + (1 - _WingsPosition) * (point3 - point0); //Right wing's upper point
+				float3 midpoint3 = point1 + (1 - _WingsPosition) * (point2 - point1); //Right wing's bottom point
+				//Flutter:
 				float angle = sin(_Time.y * entityData[idx].speed) * _MaxWingAngle;
 				float3x3 wingRot_left = AngleAxis3x3(radians(angle), up);
 				float3x3 wingRot_right = AngleAxis3x3(radians(-angle), up);
@@ -135,21 +135,21 @@ Shader "PGATR/Seagull"
 				point1 = mul(wingRot_left, point1 - midpoint1) + midpoint1;
 				point2 = mul(wingRot_right, point2 - midpoint3) + midpoint3;
 				point3 = mul(wingRot_right, point3 - midpoint2) + midpoint2;
-				//Ala izquierda: 
+				//Left wing: 
 				stream.Append(GenerateVertex(point0, float2(0, 1)));
 				stream.Append(GenerateVertex(point1, float2(0, 0)));
 				stream.Append(GenerateVertex(midpoint1, float2(_WingsPosition, 0)));
 				stream.Append(GenerateVertex(point0, float2(0, 1)));
 				stream.Append(GenerateVertex(midpoint1, float2(_WingsPosition, 0)));
 				stream.Append(GenerateVertex(midpoint0, float2(_WingsPosition, 1)));
-				//Cuerpo:
+				//Body:
 				stream.Append(GenerateVertex(midpoint0, float2(_WingsPosition, 1)));
 				stream.Append(GenerateVertex(midpoint1, float2(_WingsPosition, 0)));
 				stream.Append(GenerateVertex(midpoint3, float2(1 - _WingsPosition, 0)));
 				stream.Append(GenerateVertex(midpoint0, float2(_WingsPosition, 1)));
 				stream.Append(GenerateVertex(midpoint3, float2(1 - _WingsPosition, 0)));
 				stream.Append(GenerateVertex(midpoint2, float2(1 - _WingsPosition, 1)));
-				//Ala derecha: 
+				//Right wing: 
 				stream.Append(GenerateVertex(midpoint2, float2(1 - _WingsPosition, 1)));
 				stream.Append(GenerateVertex(midpoint3, float2(1 - _WingsPosition, 0)));
 				stream.Append(GenerateVertex(point2, float2(1, 0)));

@@ -1,12 +1,9 @@
 using UnityEngine;
-using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.Audio;
 
 public class SeagullScreech : MonoBehaviour
 {
-
     private AudioSource soundSource;
     [SerializeField] private List<AudioClip> audioClips;
     private int currentId = 0;
@@ -52,8 +49,7 @@ public class SeagullScreech : MonoBehaviour
         NextAudio();
     }
 
-    public void changeStatus() {
+    public void ChangeStatus() {
         isUnderwater = !isUnderwater;
     }
-
 }

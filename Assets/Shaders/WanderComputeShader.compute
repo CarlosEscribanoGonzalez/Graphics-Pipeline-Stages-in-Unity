@@ -11,14 +11,14 @@ cbuffer Params
     float deltaTime;
     float time;
     float2 speedRange;
-    float distThreshold; //Distancia a partir de la cual considera que ha llegado a su destino
+    float distThreshold; //Threshold used to check if the target position has been reached
     float2 boundsX;
     float2 boundsY;
     float2 boundsZ;
     float2 restRange;
 }
 
-float Random(float id) //Entre 0 y 1
+float Random(float id) //Between 0 and 1
 {
     return frac(sin(id * 12.9898 + time * 78.233) * 43758.5453);
 }
@@ -33,14 +33,14 @@ void CSMain(uint id : SV_DispatchThreadID)
 {
     if (id >= (uint) entityCount)
         return;
-    //Si está descansando tiene velocidad 0, lo cual para la animación
+    //If the entity is resting its velocity will be 0, which will stop the animation
     if (restTimers[id] > 0)
     {
         velocities[id] = float3(0, 0, 0);
         restTimers[id] -= deltaTime;
         return;
     }
-    //Si llega al destino elige una nueva posición a la que ir y establece un tiempo de descanso
+    //If it reaches its destination, a new target position is chosen and a new rest time is established
     if (distance(targetPositions[id], positions[id]) < distThreshold)
     {
         float pos_x = RandomRange(id * 17, boundsX.x, boundsX.y);
@@ -50,12 +50,12 @@ void CSMain(uint id : SV_DispatchThreadID)
         restTimers[id] = RandomRange(id * 101, restRange.x, restRange.y);
         return;
     }
-    //Si está parado pero no está descansando ni en el destino escoge una velocidad aleatoria
+    //If it isn't resting but its velocity = 0, a new random velocity is chosen
     if (length(velocities[id]) == 0)
     {
         float3 dir = normalize(targetPositions[id] - positions[id]);
         velocities[id] = dir * RandomRange(id * 13, speedRange.x, speedRange.y);
     }
-    //Actualiza su posición dependiendo de la velocidad
+    //Updates its position depending on the speed
     positions[id] += velocities[id] * deltaTime;
 }

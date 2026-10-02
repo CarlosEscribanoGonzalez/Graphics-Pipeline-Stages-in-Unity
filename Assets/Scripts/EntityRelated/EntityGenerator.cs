@@ -24,10 +24,10 @@ public class EntityGenerator : MonoBehaviour
         Mesh pointMesh = new()
         {
             vertices = GenerateVertices(),
-            //Aunque sea una point mesh, sin triángulos no va a renderizar nada
-            //En este caso, los triángulos son triplets del mismo vértice
+            //Triangles are required, without them point mesh won't be rendered
+            //In this case, triangles are triplets of the same vertex
             triangles = GenerateTriangles(), 
-            //Los bounds son necesarios para evitar frustum culling indeseado
+            //Bounds are essential to avoid unnecesary frustum culling
             bounds = new(Utils.GetDomainMidPoint(bounds_x, bounds_y, bounds_z), 
                 new(bounds_x.y - bounds_x.x, bounds_y.y - bounds_y.x, bounds_z.y - bounds_z.x))
         };

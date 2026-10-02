@@ -121,7 +121,7 @@ Shader "PGATR/Water"
 									float3 barycentricCoordinates : SV_DOMAINLOCATION)
 			{
 				VertexOutput v;
-				//Interpolación:
+				//Interpolation:
 				#define MY_DOMAIN_PROGRAM_INTERPOLATE(fieldName) v.fieldName = \
 					patch[0].fieldName * barycentricCoordinates.x + \
 					patch[1].fieldName * barycentricCoordinates.y + \
@@ -130,13 +130,13 @@ Shader "PGATR/Water"
 				MY_DOMAIN_PROGRAM_INTERPOLATE(normal)
 				MY_DOMAIN_PROGRAM_INTERPOLATE(tangent)
 				MY_DOMAIN_PROGRAM_INTERPOLATE(uv)
-				//Desplazamiento:
+				//Displacement:
 				float2 uv = v.uv * _Displacement_ST.xy + _Displacement_ST.zw;
 				float vertOffset = tex2Dlod(_Displacement, float4(uv, 0, 0)).x * 2.0 - 1.0;
 				float4 pos = v.vertex + float4(0, vertOffset * _MaxHeight, 0, 0);
 				v.worldPos = mul(UNITY_MATRIX_M, pos);
 				v.vertex = UnityObjectToClipPos(pos);
-				//Normales:
+				//Normals:
 				float3 normal = normalize(UnityObjectToWorldNormal(v.normal));
 				float3 tangent = normalize(UnityObjectToWorldDir(v.tangent.xyz));
 				float3 bitangent = cross(normal, tangent) * v.tangent.w;
@@ -152,15 +152,15 @@ Shader "PGATR/Water"
 				float3 V = normalize(_WorldSpaceCameraPos - worldPos);
 				float3 L = normalize(_WorldSpaceLightPos0.xyz);
 				float3 H = normalize(L + V);
-				// Ambiental
+				//Ambient
 				float3 color = UNITY_LIGHTMODEL_AMBIENT.rgb * _Albedo.rgb;
-				// Difuso
+				//Diffuse
 				float NdotL = saturate(dot(N, L));
 				color += _LightColor0.rgb * _Albedo.rgb * NdotL * 0.3;
-				// Fresnel
+				//Fresnel
 				float fresnel = pow(1.0 - saturate(dot(N, V)), 4.0);
-				fresnel = lerp(0.02, 1.0, fresnel); // F0 dieléctrico ~0.02 para agua
-				// Especular Blinn-Phong atenuado por Fresnel
+				fresnel = lerp(0.02, 1.0, fresnel); //F0 dielectric; ~0.02 for water
+				//Specular Blinn-Phong softened by fresnel
 				float NdotH = saturate(dot(N, H));
 				float spec = pow(NdotH, _Alpha);
 				color += _LightColor0.rgb * spec * fresnel;

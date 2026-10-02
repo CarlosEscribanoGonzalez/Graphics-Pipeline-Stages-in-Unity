@@ -205,7 +205,7 @@ Shader "PGATR/Grass"
 				float3x3 t_onlyFacing = mul(TBN, faceRotation);
 				float3x3 transformMat = mul(mul(mul(TBN, windRotation), faceRotation), bendRotation);
 
-				//Generación de vértices:
+				//Vertex generation:
 				float baseHeight = (rand(pos.zyx) * 2 - 1) * _BladeHeightRandom + _BladeHeight;
 				float baseWidth = (rand(pos.xzy) * 2 - 1) * _BladeWidthRandom + _BladeWidth;
 				float topForward = rand(pos.yyz) * _BladeForward;

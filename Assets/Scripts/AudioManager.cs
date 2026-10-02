@@ -1,8 +1,6 @@
-using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
@@ -47,6 +45,5 @@ public class AudioManager : MonoBehaviour
         yield return new WaitForSeconds(audioSource.clip.length * 2);
 
         Destroy(audioSource);
-     }   
-
+    }   
 }

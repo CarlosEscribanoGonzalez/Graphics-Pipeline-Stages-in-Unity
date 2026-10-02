@@ -5,12 +5,12 @@ using System.Collections;
 public class EntityGroupController : MonoBehaviour
 {
     [Header("Animation")]
-    [SerializeField] private float animSpeedMult = 5f; //Multiplicador velocidad animación
-    [SerializeField] private float maxAnimSpeed = 5f; //Máximo de velocidad de la animación
+    [SerializeField] private float animSpeedMult = 5f;
+    [SerializeField] private float maxAnimSpeed = 5f;
     [SerializeField] private float flipThreshold = 0.05f;
     [Header("Own movement")]
-    [SerializeField] private Vector2 speedRange = new(1, 10); //Rango de velocidades
-    [SerializeField] private Vector2 restTimeRange = new(0.5f, 3); //Tiempo de descanso al llegar al destino
+    [SerializeField] private Vector2 speedRange = new(1, 10);
+    [SerializeField] private Vector2 restTimeRange = new(0.5f, 3); //Rest time once destination is reached
     private Mesh mesh;
     private EntityGenerator generator;
     private Vector3[] positions;
@@ -32,7 +32,7 @@ public class EntityGroupController : MonoBehaviour
         int stride = sizeof(int) + sizeof(float) * 4;
         entityDataBuffer = new(GraphicsBuffer.Target.Structured, N, stride);
         material.SetBuffer("entityData", entityDataBuffer);
-        //Si hay Compute Movement el movimiento lo controla ese script, de lo contrario lo hace este
+        //This script only controls movement if there is no AComputeMovement script attached
         if (!TryGetComponent(out AComputeMovement _))
         {
             for (int i = 0; i < N; i++)
@@ -48,7 +48,7 @@ public class EntityGroupController : MonoBehaviour
         entityDataBuffer.SetData(data);
     }
 
-    //Usado por scripts AComputeMovement para actualizar la información
+    //Used by AComputeMovement to update the info
     public void UpdateInfo(Vector3[] positions, Vector3[] velocities)
     {
         this.positions = positions;
@@ -73,7 +73,7 @@ public class EntityGroupController : MonoBehaviour
         }
     }
 
-    //Corrutina de movimiento básico por CPU:
+    //Basic movement coroutine (in CPU)
     IEnumerator UpdateEntityCoroutine(int fishIdx)
     {
         positions[fishIdx] = mesh.vertices[fishIdx];

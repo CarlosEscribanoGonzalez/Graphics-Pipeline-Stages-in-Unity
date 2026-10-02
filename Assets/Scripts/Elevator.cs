@@ -56,7 +56,7 @@ public class Elevator : MonoBehaviour
         }
         audioManager.StopMusic();
         elevatorMusic.Play();
-        seagullController.changeStatus();
+        seagullController.ChangeStatus();
         while (platform.position != targetPos)
         {
             platform.position = 

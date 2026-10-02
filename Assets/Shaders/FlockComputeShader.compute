@@ -11,8 +11,8 @@ cbuffer Params
     int entityCount;
     float deltaTime;
     float3 targetPos;
-    float neighborRadius; //Para alineamiento y cohesión
-    float separationRadius; //Para separación
+    float neighborRadius; //For cohesion and alignment
+    float separationRadius; //For separation
     float maxVel;
     float maxForce;
     float weightSeparation;
@@ -26,16 +26,16 @@ void CSMain(uint id : SV_DispatchThreadID)
 {
     if (id >= (uint) entityCount)
         return;
-    //Obtención de posición y velocidad:
+    //Positions and velocities obtainment:
     float3 pos = positions[id];
     float3 vel = velocities[id];
-    //Inicialización de términos:
+    //Term initialization:
     float3 separation = float3(0, 0, 0);
     float3 alignment = float3(0, 0, 0);
     float3 cohesion = float3(0, 0, 0);
     int separationCount = 0;
     int neighborCount = 0;
-    //Cálculo de términos:
+    //Calculation of terms:
     for (int i = 0; i < entityCount; i++)
     {
         if ((uint) i == id)
@@ -61,7 +61,7 @@ void CSMain(uint id : SV_DispatchThreadID)
         alignment = alignment / neighborCount - vel;
         cohesion = cohesion / neighborCount - pos;
     } 
-    //Cálculo de velocidades y posiciones finales:
+    //Calculation of final positions and velocities:
     float3 destForce = normalize(targetPos - pos);
     float3 force = weightSeparation * separation + weightAlignment * alignment + 
     weightCohesion * cohesion + weightTarget * destForce;
