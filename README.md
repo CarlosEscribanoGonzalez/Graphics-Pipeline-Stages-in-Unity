@@ -1,5 +1,5 @@
 ## Overview
-Unity project (Built-in Render Pipeline) built to explore the different stages of the graphics pipeline in HLSL, with special emphasis on **geometry shaders**, **tessellation** and **compute shaders**. The result is an interactive sunset island with animated seagulls, fishes ocean and grass.
+Unity project (Built-in Render Pipeline) built to explore the different stages of the graphics pipeline in HLSL, with special emphasis on **geometry shaders**, **tessellation** and **compute shaders**. The result is an interactive sunset island with animated seagulls, fishes, ocean and grass.
 
 ## Features
 **Geometry shaders: billboard entities**
