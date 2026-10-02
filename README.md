@@ -45,6 +45,9 @@ Unity project (Built-in Render Pipeline) built to explore the different stages o
 * Every footstep of the player over the puddle spawns a Gaussian-shaped ripple that propagates, reflects and fades out
 * Configurable resolution, propagation speed, damping and ripple size and strength
 * Mesh normals recalculated every frame so the lighting follows the ripples
+<p align = "center">
+  <img width="531" height="300" alt="Puddle" src="https://github.com/user-attachments/assets/e4d33258-af7c-459f-b026-a512fcecf281" />
+</p>
 
 **Scene and gameplay**
 * First-person movement (WASD and mouse) and interaction with objects (**E**), with an outline shader (backface rendering) highlighting what can be interacted with
